@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The ZAO — Web3 Music Community &amp; Incubator</title>
+<meta name="description" content="The ZAO is a web3 music community and incubator that builds tools, spaces, and systems for artists and creators, governed by a vote you earn, not one you buy.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%230B2038'/%3E%3Crect x='1' y='1' width='38' height='38' rx='8' fill='none' stroke='%23F5C518' stroke-opacity='.35'/%3E%3Ctext x='20' y='17' text-anchor='middle' font-family='Arial,sans-serif' font-weight='800' font-size='6.5' letter-spacing='1.5' fill='%23EAF0F8' fill-opacity='.6'%3ETHE%3C/text%3E%3Ctext x='20' y='31' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='16' fill='%23F5C518'%3EZAO%3C/text%3E%3Crect x='29' y='6' width='4' height='4' rx='1' fill='%23E15757'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#03182F;
+  --bg-1:#071E38;
+  --bg-2:#0C2A47;
+  --bg-2-hover:#123457;
+  --border:rgba(234,240,248,.09);
+  --border-strong:rgba(234,240,248,.18);
+  --text:#EAF0F8;
+  --text-muted:rgba(234,240,248,.68);
+  --text-faint:rgba(234,240,248,.42);
+  --gold:#F5C518;
+  --gold-soft:rgba(245,197,24,.10);
+  --gold-line:rgba(245,197,24,.32);
+  --on-gold:#03182F;
+  --red:#E15757;
+  --green:#3FBF7F;
+  --radius:14px;
+  --radius-sm:8px;
+  --container:1180px;
+  --shadow-lift: 0 20px 40px -20px rgba(0,0,0,.55);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  position:relative;
+  background:
+    radial-gradient(1100px 560px at 85% -10%, rgba(245,197,24,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 15%, rgba(245,197,24,.05), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+/* filmic grain, gives every flat surface a bit of texture instead of dead-flat color */
+body::after{
+  content:"";position:fixed;inset:0;z-index:999;pointer-events:none;
+  opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--container);margin:0 auto;padding:0 24px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);
+}
+.eyebrow::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 3px var(--gold-soft);
+}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,6vw,4.2rem);line-height:1.05}
+h2{font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.12}
+h3{font-size:1.15rem}
+p{margin:0}
+.muted{color:var(--text-muted)}
+.section{padding:104px 0}
+.section-head{max-width:640px;margin-bottom:48px}
+.section-head p{margin-top:14px;font-size:1.05rem}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border-strong),transparent)}
+
+/* skip link */
+.skip-link{
+  position:absolute;left:16px;top:-60px;background:var(--gold);color:var(--on-gold);
+  padding:10px 16px;border-radius:var(--radius-sm);font-weight:700;z-index:200;transition:top .2s;
+}
+.skip-link:focus{top:16px}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 24px;border-radius:var(--radius-sm);font-weight:700;font-size:.98rem;
+  border:1px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease;
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--gold);color:var(--on-gold);box-shadow:0 8px 24px -8px rgba(245,197,24,.45)}
+.btn-primary:hover{background:#ffd23d;box-shadow:0 10px 28px -6px rgba(245,197,24,.6)}
+.btn-outline{background:transparent;color:var(--gold);border-color:var(--gold-line)}
+.btn-outline:hover{background:var(--gold-soft);border-color:var(--gold)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border-strong)}
+.btn-ghost:hover{border-color:var(--gold-line);color:var(--gold)}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn:focus-visible,.navlink:focus-visible,a:focus-visible,button:focus-visible{
+  outline:2px solid var(--gold);outline-offset:2px;
+}
+
+/* nav */
+header.site{
+  position:sticky;top:0;z-index:100;
+  background:rgba(3,24,47,.72);
+  backdrop-filter:saturate(160%) blur(14px);
+  -webkit-backdrop-filter:saturate(160%) blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;flex:0 0 auto}
+.brand img{width:34px;height:32px;border-radius:7px}
+.navlinks{display:flex;align-items:center;gap:4px;flex:1;justify-content:center}
+.navlink{
+  position:relative;padding:9px 14px;border-radius:var(--radius-sm);
+  font-size:.92rem;font-weight:600;color:var(--text-muted);transition:color .15s;
+}
+.navlink:hover{color:var(--text)}
+.navlink.active{color:var(--gold)}
+.navlink.active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;background:var(--gold);border-radius:2px;
+}
+.nav-cta{flex:0 0 auto;display:flex;align-items:center;gap:10px}
+.nav-cta .btn{padding:10px 18px;font-size:.9rem}
+.menu-btn{display:none;background:transparent;border:1px solid var(--border-strong);border-radius:var(--radius-sm);width:42px;height:42px;align-items:center;justify-content:center;color:var(--text)}
+.mobile-panel{display:none;flex-direction:column;gap:2px;padding:8px 24px 20px}
+.mobile-panel .navlink{padding:12px 10px;font-size:1rem}
+body.nav-open .mobile-panel{display:flex}
+
+/* hero */
+.hero{padding:96px 0 72px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1{margin:18px 0 20px}
+.hero h1 .hl{color:var(--gold)}
+.hero p.lead{font-size:1.15rem;color:var(--text-muted);max-width:560px}
+.hero .btn-row{margin-top:32px}
+.hero-visual{position:relative;height:360px;display:flex;align-items:center;justify-content:center}
+.hero-visual .glow{position:absolute;inset:0;background:radial-gradient(240px 240px at 50% 50%,rgba(245,197,24,.28),transparent 70%);filter:blur(8px)}
+.hero-visual canvas{position:absolute;inset:0;width:100%;height:100%}
+.vinyl{
+  position:absolute;width:230px;height:230px;border-radius:50%;z-index:0;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, rgba(234,240,248,.09) 0 1px, transparent 1px 6px),
+    radial-gradient(circle at 42% 38%, #16324f, #071426 70%);
+  border:1px solid var(--border-strong);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+  animation:spin 14s linear infinite;
+}
+.vinyl::after{
+  content:"";position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#ffdf7e,var(--gold) 55%,#8a5f06 100%);
+  box-shadow:0 0 0 6px rgba(3,24,47,.9);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.vinyl{animation:none}}
+.eq{display:flex;align-items:flex-end;gap:8px;height:200px;position:relative;z-index:1}
+.eq i{
+  display:block;width:14px;border-radius:6px;
+  background:linear-gradient(180deg,var(--gold),rgba(245,197,24,.25));
+  animation:eq 2.4s ease-in-out infinite;
+}
+.eq i:nth-child(1){height:40%;animation-delay:-2.1s}
+.eq i:nth-child(2){height:70%;animation-delay:-1.7s}
+.eq i:nth-child(3){height:100%;animation-delay:-1.3s}
+.eq i:nth-child(4){height:55%;animation-delay:-.9s}
+.eq i:nth-child(5){height:85%;animation-delay:-.5s}
+.eq i:nth-child(6){height:35%;animation-delay:-.2s}
+.eq i:nth-child(7){height:65%;animation-delay:-2.5s}
+@keyframes eq{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+@media (prefers-reduced-motion: reduce){.eq i{animation:none}}
+.scroll-cue{
+  margin:64px auto 0;width:26px;height:42px;border:2px solid var(--border-strong);border-radius:14px;
+  display:flex;justify-content:center;padding-top:8px;
+}
+.scroll-cue i{width:4px;height:8px;border-radius:2px;background:var(--gold);animation:cue 1.8s infinite}
+@keyframes cue{0%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(14px)}100%{opacity:0}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* stats */
+.wave-decor{
+  position:absolute;top:0;left:0;right:0;height:260px;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='120' viewBox='0 0 400 120'%3E%3Cg fill='none' stroke='%23F5C518' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M0 60 L10 60 L10 40 L20 40 L20 80 L30 80 L30 20 L40 20 L40 100 L50 100 L50 50 L60 50 L60 70 L70 70 L70 30 L80 30 L80 90 L90 90 L90 45 L100 45 L100 65 L110 65 L110 15 L120 15 L120 105 L130 105 L130 55 L140 55 L140 60 L150 60 L150 25 L160 25 L160 95 L170 95 L170 40 L180 40 L180 80 L190 80 L190 50 L200 50 L200 70 L210 70 L210 10 L220 10 L220 110 L230 110 L230 60 L240 60 L240 30 L250 30 L250 90 L260 90 L260 45 L270 45 L270 65 L280 65 L280 20 L290 20 L290 100 L300 100 L300 55 L310 55 L310 60 L320 60 L320 35 L330 35 L330 85 L340 85 L340 50 L350 50 L350 70 L360 70 L360 15 L370 15 L370 105 L380 105 L380 60 L400 60'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat:repeat-x;background-size:400px 260px;opacity:.05;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent);
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent);
+}
+.stat-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:56px}
+.stat-card{
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  border:1px solid var(--border);border-radius:var(--radius);padding:26px 22px;
+  transition:transform .2s ease,border-color .2s ease;
+}
+.stat-card:hover{transform:translateY(-4px);border-color:var(--gold-line)}
+.stat-icon{width:38px;height:38px;border-radius:10px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--gold)}
+.stat-num{font-size:2.1rem;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.stat-label{color:var(--text-muted);font-size:.92rem;margin-top:4px}
+
+/* leaderboard */
+.board{background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.board-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.board-head .eyebrow::before{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px var(--gold-soft)}50%{box-shadow:0 0 0 6px var(--gold-soft)}}
+.board-row{display:flex;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--border)}
+.board-row:last-child{border-bottom:none}
+.board-row:hover{background:rgba(234,240,248,.02)}
+.rank{
+  width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;flex:0 0 auto;background:var(--bg);color:var(--text-muted);border:1px solid var(--border-strong);
+}
+.rank.r1{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.rank.r2{background:rgba(234,240,248,.18);color:var(--text)}
+.rank.r3{background:rgba(225,140,60,.28);color:#ffd9ad}
+.board-name{font-weight:700;flex:1;min-width:0;overflow-wrap:anywhere}
+.wl{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.wl-pill{font-size:.82rem;font-weight:700;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.wl-bar{width:74px;height:6px;border-radius:4px;background:rgba(225,87,87,.35);overflow:hidden}
+.wl-bar span{display:block;height:100%;background:var(--green);border-radius:4px}
+
+/* respect / earned section */
+.respect{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.respect p{margin-top:16px}
+.respect .btn-row{margin-top:28px}
+.compare{display:flex;flex-direction:column;gap:14px}
+.compare-card{border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;background:var(--bg-1)}
+.compare-card.no{opacity:.6}
+.compare-card.yes{border-color:var(--gold-line);background:linear-gradient(180deg,var(--gold-soft),transparent);}
+.compare-title{display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:6px}
+.compare-title .ic{width:22px;height:22px;flex:0 0 auto;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.compare-card.no .ic{background:rgba(225,87,87,.18);color:var(--red)}
+.compare-card.yes .ic{background:var(--gold);color:var(--on-gold)}
+.compare-card p{font-size:.94rem;color:var(--text-muted);margin:0}
+.arrow-between{display:flex;align-items:center;gap:10px;color:var(--text-faint);font-size:.85rem;padding-left:8px}
+
+/* project cards */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proj-card{
+  position:relative;border:1px solid var(--border);border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  overflow:hidden;
+}
+.proj-card:hover{transform:translateY(-6px);border-color:var(--gold-line);box-shadow:var(--shadow-lift)}
+.proj-cover{
+  position:relative;height:112px;display:flex;align-items:center;justify-content:center;
+  color:#fff;overflow:hidden;
+}
+.proj-cover::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.proj-cover svg{position:relative;z-index:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.proj-card:hover .proj-cover svg{transform:scale(1.08)}
+.proj-cover svg{transition:transform .25s ease}
+.cover-wavewarz{background:radial-gradient(circle at 28% 22%,#ffe49a,#F5C518 42%,#8a3d10 100%)}
+.cover-concertz{background:radial-gradient(circle at 72% 28%,#9d8bff,#4b3aa8 55%,#0c1230 100%)}
+.cover-zaostock{background:linear-gradient(135deg,#ffb677,#F5C518 55%,#7a3b12 100%)}
+.cover-zaoos{background:linear-gradient(135deg,#5be8cf,#0e7f70 60%,#062a29 100%)}
+.cover-zabal{background:linear-gradient(135deg,#ff8ec2,#3fd88a 70%,#161b33 100%)}
+.proj-body{padding:20px 24px 24px}
+.proj-card h3{color:var(--gold);margin-bottom:8px}
+.proj-card p{color:var(--text-muted);font-size:.96rem}
+
+/* people grid */
+.people-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.person{
+  display:flex;align-items:center;gap:12px;padding:16px 18px;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--bg-1);transition:border-color .2s,transform .2s;
+  min-width:0;
+}
+.person:hover{border-color:var(--gold-line);transform:translateY(-3px)}
+.avatar{
+  position:relative;width:44px;height:44px;border-radius:11px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.82rem;color:rgba(3,24,47,.85);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);
+}
+.avatar::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.avatar.t1{background:linear-gradient(145deg,#ffe49a,#F5C518)}
+.avatar.t2{background:linear-gradient(145deg,#9d8bff,#4b3aa8);color:#EAF0F8}
+.avatar.t3{background:linear-gradient(145deg,#ffb677,#F5C518)}
+.avatar.t4{background:linear-gradient(145deg,#5be8cf,#0e7f70);color:#EAF0F8}
+.avatar.t5{background:linear-gradient(145deg,#ff8ec2,#c23f8a);color:#EAF0F8}
+.avatar.t6{background:linear-gradient(145deg,#ffdf7e,#c9781a)}
+.avatar.t7{background:linear-gradient(145deg,#8bd1ff,#2c5fa8);color:#EAF0F8}
+.avatar.t8{background:linear-gradient(145deg,#ff9d7a,#a83a2c);color:#EAF0F8}
+.avatar.sm{width:30px;height:30px;border-radius:8px;font-size:.68rem}
+.person span{font-weight:700;font-size:.94rem;min-width:0;overflow-wrap:anywhere}
+
+/* CTA */
+.cta{
+  position:relative;border-radius:24px;padding:72px 40px;text-align:center;overflow:hidden;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);
+}
+.cta::before{
+  content:"";position:absolute;inset:-40%;
+  background:
+    radial-gradient(closest-side at 30% 20%,rgba(157,139,255,.14),transparent 65%),
+    radial-gradient(closest-side at 75% 80%,rgba(245,197,24,.18),transparent 65%),
+    radial-gradient(closest-side at 50% 50%,rgba(245,197,24,.10),transparent 70%);
+  animation:driftlight 16s ease-in-out infinite alternate;
+}
+@keyframes driftlight{0%{transform:translate(0,0)}100%{transform:translate(3%,-3%)}}
+@media (prefers-reduced-motion: reduce){.cta::before{animation:none}}
+.cta-inner{position:relative;z-index:1;max-width:600px;margin:0 auto}
+.cta p{margin-top:14px;color:var(--text-muted);font-size:1.05rem}
+.cta .btn-row{justify-content:center;margin-top:30px}
+
+/* footer */
+footer.site{border-top:1px solid var(--border);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px;margin-bottom:48px}
+.footer-brand{display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:14px}
+.footer-brand img{width:32px;height:30px;border-radius:7px}
+.footer-tagline{color:var(--text-muted);font-size:.92rem;max-width:280px}
+.footer-col h4{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);margin-bottom:14px;font-weight:700}
+.footer-col a{display:block;color:var(--text-muted);font-size:.92rem;padding:6px 0;transition:color .15s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:28px;border-top:1px solid var(--border);color:var(--text-faint);font-size:.86rem}
+
+/* responsive */
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{height:220px;order:-1}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .people-grid{grid-template-columns:repeat(2,1fr)}
+  .respect{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .navlinks,.nav-cta .btn-ghost{display:none}
+  .menu-btn{display:flex}
+}
+@media (max-width:760px){
+  .section{padding:72px 0}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:1fr}
+  .people-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .board-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site">
+  <div class="container nav">
+    <a href="#" class="brand" aria-label="The ZAO home">
+      <svg class="mark" viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+        <rect width="40" height="40" rx="9" fill="#0B2038"/>
+        <rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#F5C518" stroke-opacity=".35"/>
+        <text x="20" y="17" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="6.5" letter-spacing="1.5" fill="#EAF0F8" fill-opacity=".6">THE</text>
+        <text x="20" y="31" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#F5C518">ZAO</text>
+        <rect x="29" y="6" width="4" height="4" rx="1" fill="#E15757"/>
+      </svg>
+      <span>The ZAO</span>
+    </a>
+    <nav class="navlinks" aria-label="Primary">
+      <a class="navlink active" href="#">Nexus</a>
+      <a class="navlink" href="#">Papers</a>
+      <a class="navlink" href="#">Community</a>
+      <a class="navlink" href="#">Calendar</a>
+      <a class="navlink" href="#leaderboard">Leaderboard</a>
+      <a class="navlink" href="#">AI Tools</a>
+      <a class="navlink" href="#">About</a>
+      <a class="navlink" href="#">Token</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Community</a>
+      <a href="#join" class="btn btn-primary">Join</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobilePanel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path id="menuIcon" d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a class="navlink" href="#">Nexus</a>
+    <a class="navlink" href="#">Papers</a>
+    <a class="navlink" href="#">Community</a>
+    <a class="navlink" href="#">Calendar</a>
+    <a class="navlink" href="#leaderboard">Leaderboard</a>
+    <a class="navlink" href="#">AI Tools</a>
+    <a class="navlink" href="#">About</a>
+    <a class="navlink" href="#">Token</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Web3 music community &amp; incubator</span>
+        <h1>A home where <span class="hl">artists own</span> their work.</h1>
+        <p class="lead">The ZAO builds tools, spaces, and systems for artists and creators, and governs itself with a vote you earn, not one you buy. Built in the open, on Farcaster and Base.</p>
+        <div class="btn-row">
+          <a href="#" class="btn btn-primary">Explore the community</a>
+          <a href="#" class="btn btn-outline">Read the whitepaper</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <canvas id="heroFX"></canvas>
+        <div class="glow"></div>
+        <div class="vinyl" style="right:6%"></div>
+        <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><i></i></div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- WAVEWARZ -->
+  <section class="section" id="leaderboard" style="position:relative;overflow:hidden">
+    <div class="wave-decor" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:1">
+      <div class="section-head reveal">
+        <span class="eyebrow">Live data</span>
+        <h2 style="margin-top:14px">WaveWarZ, live on-chain</h2>
+        <p class="muted">Receipts, not vanity. WaveWarZ, the ecosystem's music-battle platform on Solana, runs entirely on-chain. These figures are pulled live from its API.</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card reveal">
+          <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14v-4M9 18V6M14 20V4M19 14v-4"/></svg></div>
+          <div class="stat-num" data-count="1291">0</div>
+          <div class="stat-label">Music battles</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9 10.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/></svg></div>
+          <div class="stat-num"><span data-count="878">0</span> SOL</div>
+          <div class="stat-label">Traded on-chain</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/><circle cx="18" cy="9" r="2.4"/><path d="M16.3 14.2c2.5.4 4.7 2.3 4.7 5.3"/></svg></div>
+          <div class="stat-num" data-count="52">0</div>
+          <div class="stat-label">Artists competing</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg></div>
+          <div class="stat-num" data-count="816">0</div>
+          <div class="stat-label">Songs battled</div>
+        </div>
+      </div>
+
+      <div class="board reveal">
+        <div class="board-head">
+          <span class="eyebrow">Top of the leaderboard right now</span>
+          <a href="#" class="btn btn-ghost" style="padding:8px 14px;font-size:.85rem">Full leaderboard</a>
+        </div>
+        <div class="board-row"><span class="rank r1">1</span><span class="avatar sm t1">GM</span><span class="board-name">Geek Myth</span><span class="wl"><span class="wl-bar"><span style="width:100%"></span></span><span class="wl-pill">4W - 0L</span></span></div>
+        <div class="board-row"><span class="rank r2">2</span><span class="avatar sm t2">CJ</span><span class="board-name">Cannon Jones 973</span><span class="wl"><span class="wl-bar"><span style="width:100%"></span></span><span class="wl-pill">3W - 0L</span></span></div>
+        <div class="board-row"><span class="rank r3">3</span><span class="avatar sm t3">L</span><span class="board-name">Lui</span><span class="wl"><span class="wl-bar"><span style="width:100%"></span></span><span class="wl-pill">3W - 0L</span></span></div>
+        <div class="board-row"><span class="rank">4</span><span class="avatar sm t4">O</span><span class="board-name">One</span><span class="wl"><span class="wl-bar"><span style="width:75%"></span></span><span class="wl-pill">3W - 1L</span></span></div>
+        <div class="board-row"><span class="rank">5</span><span class="avatar sm t5">A</span><span class="board-name">Aporkalypse</span><span class="wl"><span class="wl-bar"><span style="width:50%"></span></span><span class="wl-pill">3W - 3L</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- EARNED NOT BOUGHT -->
+  <section class="section">
+    <div class="container respect">
+      <div class="reveal">
+        <span class="eyebrow">Governance</span>
+        <h2 style="margin-top:14px">Earned, not bought</h2>
+        <p class="muted">In most communities a vote is something you buy: hold the most tokens, hold the most power. The ZAO takes the opposite position. Here, a vote is something you earn, through Respect: an onchain reputation built by showing up and contributing, ranked by peers each week. It cannot be bought, sold, or transferred.</p>
+        <p class="muted">The whitepaper lays out the theory, the mechanics, and the verifiable on-chain architecture in full.</p>
+        <div class="btn-row">
+          <a href="#" class="btn btn-primary">Read the whitepaper</a>
+          <a href="#" class="btn btn-outline">How Respect works</a>
+        </div>
+      </div>
+      <div class="compare reveal">
+        <div class="compare-card no">
+          <div class="compare-title"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Buy tokens, buy power</div>
+          <p>The usual model. Whoever holds the most tokens controls the vote.</p>
+        </div>
+        <div class="arrow-between">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          the ZAO way instead
+        </div>
+        <div class="compare-card yes">
+          <div class="compare-title"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg></span>Show up, earn Respect</div>
+          <p>Reputation is built weekly by peers, based on real contribution. It cannot be bought, sold, or transferred.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- WHAT WE BUILD -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Ecosystem</span>
+        <h2 style="margin-top:14px">What we build</h2>
+        <p class="muted">Everything under the umbrella serves the same idea. Each is its own project, built in the open. See them all in the Nexus.</p>
+      </div>
+      <div class="grid-3">
+        <div class="proj-card reveal">
+          <div class="proj-cover cover-wavewarz"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 14v-4M9 18V6M14 20V4M19 14v-4"/></svg></div>
+          <div class="proj-body">
+            <h3>WaveWarZ</h3>
+            <p>Live-traded music battles on Solana, with automated payouts to artists.</p>
+          </div>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-cover cover-concertz"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="3"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <div class="proj-body">
+            <h3>COC Concertz</h3>
+            <p>A recurring metaverse concert series for the community.</p>
+          </div>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-cover cover-zaostock"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-6h6v6"/></svg></div>
+          <div class="proj-body">
+            <h3>ZAOstock</h3>
+            <p>The ZAO festival, bridging a real place to an onchain community.</p>
+          </div>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-cover cover-zaoos"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M9 3h6M10 3v5l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3.5L14 8V3"/></svg></div>
+          <div class="proj-body">
+            <h3>ZAO OS</h3>
+            <p>The lab where ecosystem projects get built before they graduate.</p>
+          </div>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-cover cover-zabal"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="8" width="18" height="9" rx="3"/><path d="M8 12v1M17 12v1M9.5 12.5h-3M16 12.5h-3"/></svg></div>
+          <div class="proj-body">
+            <h3>ZABAL Games</h3>
+            <p>The build-a-thon program: artists and builders shipping together.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- NOTABLE ARTISTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Community</span>
+        <h2 style="margin-top:14px">Notable artists &amp; builders</h2>
+      </div>
+      <div class="people-grid">
+        <div class="person reveal"><span class="avatar t1">JF</span><span>JANGOUU FOREVER</span></div>
+        <div class="person reveal"><span class="avatar t2">SE</span><span>Songs of Eden</span></div>
+        <div class="person reveal"><span class="avatar t3">HI</span><span>Hurric4n3Ike</span></div>
+        <div class="person reveal"><span class="avatar t4">AT</span><span>Attabotty</span></div>
+        <div class="person reveal"><span class="avatar t5">CL</span><span>Clejan</span></div>
+        <div class="person reveal"><span class="avatar t6">NR</span><span>NessytheRilla</span></div>
+        <div class="person reveal"><span class="avatar t7">JV</span><span>Jadyn Violet</span></div>
+        <div class="person reveal"><span class="avatar t8">MA</span><span>Maxwell Aden</span></div>
+        <div class="person reveal"><span class="avatar t1">IA</span><span>IMan Afrikah</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="join" style="padding-top:0">
+    <div class="container">
+      <div class="cta reveal">
+        <div class="cta-inner">
+          <h2>Come build with us</h2>
+          <p>Whether you make music, build tools, or just like what we are doing, there is a place for you here. Show up, contribute, and earn your standing.</p>
+          <div class="btn-row">
+            <a href="#" class="btn btn-primary">Join on Farcaster</a>
+            <a href="#" class="btn btn-outline">Browse the Nexus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg class="mark" viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+            <rect width="40" height="40" rx="9" fill="#0B2038"/>
+            <rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#F5C518" stroke-opacity=".35"/>
+            <text x="20" y="17" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="6.5" letter-spacing="1.5" fill="#EAF0F8" fill-opacity=".6">THE</text>
+            <text x="20" y="31" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#F5C518">ZAO</text>
+            <rect x="29" y="6" width="4" height="4" rx="1" fill="#E15757"/>
+          </svg>
+          <span>The ZAO</span>
+        </div>
+        <p class="footer-tagline">The ZAO, a web3 music community building tools for artists to own their work.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="#">Nexus</a>
+        <a href="#">Papers</a>
+        <a href="#">Community</a>
+        <a href="#">Calendar</a>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#">AI Tools</a>
+        <a href="#">Token</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Whitepaper</a>
+        <a href="#">Farcaster</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> The ZAO</span>
+      <span>Built in the open, on Farcaster and Base.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// hero particle field, ambient "sound dust" drifting behind the equalizer
+(function () {
+  const canvas = document.getElementById('heroFX');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, particles;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    w = canvas.width = rect.width * devicePixelRatio;
+    h = canvas.height = rect.height * devicePixelRatio;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    const count = Math.round((rect.width * rect.height) / 9000);
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: (Math.random() * 1.6 + 0.6) * devicePixelRatio,
+      vy: (Math.random() * 0.25 + 0.08) * devicePixelRatio,
+      hue: Math.random() > 0.5 ? '245,197,24' : '157,139,255',
+      a: Math.random() * 0.5 + 0.15
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.hue},${p.a})`;
+      ctx.fill();
+      if (!reduceMotion) {
+        p.y -= p.vy;
+        if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+      }
+    });
+    if (!reduceMotion) requestAnimationFrame(draw);
+  }
+
+  resize();
+  draw();
+  window.addEventListener('resize', resize);
+})();
+
+// mobile menu
+const menuBtn = document.getElementById('menuBtn');
+menuBtn.addEventListener('click', () => {
+  const open = document.body.classList.toggle('nav-open');
+  menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+// scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add('in'));
+}
+
+// count-up stats
+const counters = document.querySelectorAll('[data-count]');
+const animateCount = (el) => {
+  const target = parseInt(el.getAttribute('data-count'), 10);
+  const dur = 1400;
+  const start = performance.now();
+  const step = (now) => {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased).toLocaleString();
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+};
+if ('IntersectionObserver' in window) {
+  const io2 = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCount(e.target); io2.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  counters.forEach(el => io2.observe(el));
+} else {
+  counters.forEach(el => { el.textContent = parseInt(el.getAttribute('data-count'),10).toLocaleString(); });
+}
+</script>
+</body>
+</html>
